@@ -30,35 +30,39 @@ def multp_mat(A, B):
         return None
 
 def res (A,b):
-    C=[]
-    tam=len(A)
-    for i in range (tam):
-        if isinstance(A[0],list):
-            aux=[]
-            for j in range (tam):
-                aux.append(A[i][j]-b[i][j])
-            C.append(aux)
-        else:
-            C.append(A[i]-b[i])
+    C=[i - j for i,j in zip(A, b)]
     return C
-          
+
+def mult_esc (A,k):
+    A2=[]
+    for i in range (len(A)):
+        aux=[]
+        if isinstance(A[0],list):
+            for j in range (len(A[i])):
+                x=A[i][j]
+                aux.append(k*x)
+                A2.append(aux)
+        else:
+            A2.append(k*A[i])
+    return A2
+
 A_coef = [[2.0, 1.0, -3.0], [5.0, -4.0, 1.0], [1.0, -1.0, -4.0]]
 b_coef = [7.0, -19.0, 4.0]
 
 x_start = [0.0, 0.0, 0.0]
 
 def gradient(x, A, b):
-	element_1 = multp_mat(transp(A),multp_mat(A, x))
-	element_2 = multp_mat(transp(A), b)
-	return element_1 - element_2
+	element_1 = np.dot(transp(A),np.dot(A, x))
+	element_2 = np.dot(transp(A), b)
+	return res(element_1, element_2)
 
 
 def linear_solv(A, b, x_sol, k=0.01, criteria=0.0001, max_iter=1000):
     for i in range(max_iter):
-        x_sol = res(x_sol,k * gradient(x_sol, A, b))
+        x_sol = res(x_sol,np.dot(gradient(x_sol, A, b),k))
         print (x_sol)
-        btent=multp_mat(A,x_sol)
-        error = np.sum(np.abs(res(btent,b)))
+        btent=np.dot(A,x_sol)
+        error = sum(abs(i) for i in res(btent,b))
         if error < criteria:
             return x_sol
     
