@@ -1,13 +1,13 @@
 A_coef =[[2.0, 1.0, -3.0], [5.0, -4.0, 1.0], [1.0, -1.0, -4.0]]
 b_coef =[7.0, -19.0, 4.0]
 
-def multM(A,b):
+def multM(A,B):
     C=[]
     for i in range(len(A)):
-        for j in range(len(b)):
+        for j in range(len(B)):
             x=0
             for k in range(len(A[0])):
-                x=x+A[i][k]*b[k]
+                x=x+A[i][k]*B[k]
         C.append(x)
     return C
 
