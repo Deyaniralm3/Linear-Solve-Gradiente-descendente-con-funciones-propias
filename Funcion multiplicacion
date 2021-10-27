@@ -1,36 +1,15 @@
-A_1=[[1,2,3],
-   [4,5,6]]
+A_coef =[[2.0, 1.0, -3.0], [5.0, -4.0, 1.0], [1.0, -1.0, -4.0]]
+b_coef =[7.0, -19.0, 4.0]
 
+def multM(A,b):
+    C=[]
+    for i in range(len(A)):
+        for j in range(len(b)):
+            x=0
+            for k in range(len(A[0])):
+                x=x+A[i][k]*b[k]
+        C.append(x)
+    return C
 
-A_2=[[9,8,7],
-  [6,5,4],
-  [3,2,1]]
-
-
-def multp_mat(A, B):
-    if len(A[0])==len(B[0]):
-        C=[]
-        for i in range(len(A)):
-            C.append([])
-            for j in range(len(B[0])):
-                C[i].append(0)
-                
-        for i in range(len(A)):
-            for j in range(len(B[0])):
-                for k in range(len(A[0])):
-                    C[i][j]+=A[i][k]*B[k][j]
-        
-        return C
-    else:
-        return None
-          
-C=multp_mat(A_1, A_2) 
-
-if C==None:
-    print("Error de dimensiones")
-else:
-    for fila in C:
-        print("[", end=" ")
-        for elemento in fila:
-            print(elemento, end=" ")
-        print("]")
+C=multM(A_coef, b_coef)
+print(C)
