@@ -55,7 +55,7 @@ def gradient(x, A, b):
 
 def linear_solv(A, b, x_sol, k=0.01, criteria=0.0001, max_iter=1000):
     for i in range(max_iter):
-        x_sol = res(x_sol,mult_mat(gradient(x_sol, A, b),k))
+        x_sol = res(x_sol,mult_esc(gradient(x_sol, A, b),k))
         print (x_sol)
         btent=mult_mat(A,x_sol)
         error = sum(abs(i) for i in res(btent,b))
