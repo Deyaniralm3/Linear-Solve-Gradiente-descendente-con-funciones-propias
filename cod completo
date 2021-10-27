@@ -1,0 +1,65 @@
+import numpy as np
+
+
+def transp (A):
+    At=[]
+    tam=len(A)
+    for i in range (tam):
+        aux=[]
+        for j in range (tam):
+            aux.append(A[j][i])
+        At.append(aux)
+    return At
+
+
+def multp_mat(A, B):
+    if len(A[0])==len(B[0]):
+        C=[]
+        for i in range(len(A)):
+            C.append([])
+            for j in range(len(B[0])):
+                C[i].append(0)
+                
+        for i in range(len(A)):
+            for j in range(len(B[0])):
+                for k in range(len(A[0])):
+                    C[i][j]+=A[i][k]*B[k][j]
+        
+        return C
+    else:
+        return None
+
+def res (A,b):
+    C=[]
+    tam=len(A)
+    for i in range (tam):
+        if isinstance(A[0],list):
+            aux=[]
+            for j in range (tam):
+                aux.append(A[i][j]-b[i][j])
+            C.append(aux)
+        else:
+            C.append(A[i]-b[i])
+    return C
+          
+A_coef = [[2.0, 1.0, -3.0], [5.0, -4.0, 1.0], [1.0, -1.0, -4.0]]
+b_coef = [7.0, -19.0, 4.0]
+
+x_start = [0.0, 0.0, 0.0]
+
+def gradient(x, A, b):
+	element_1 = multp_mat(transp(A),multp_mat(A, x))
+	element_2 = multp_mat(transp(A), b)
+	return element_1 - element_2
+
+
+def linear_solv(A, b, x_sol, k=0.01, criteria=0.0001, max_iter=1000):
+    for i in range(max_iter):
+        x_sol = res(x_sol,k * gradient(x_sol, A, b))
+        print (x_sol)
+        btent=multp_mat(A,x_sol)
+        error = np.sum(np.abs(res(btent,b)))
+        if error < criteria:
+            return x_sol
+    
+print("La solucion viene como :", linear_solv(A_coef, b_coef, x_start))
