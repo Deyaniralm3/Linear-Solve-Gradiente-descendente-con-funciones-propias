@@ -12,4 +12,4 @@ def multM(A,b):
     return C
 
 C=multM(A_coef, b_coef)
-print(C)
+#print(C)
